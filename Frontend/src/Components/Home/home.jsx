@@ -8,7 +8,7 @@ function Home() {
     }, [])
 
     return (
-        <div>
+        <div className='p-3 my-2'>
             <ul>
                 <li>
                     <NavLink to='/create_invoice'>Create Invoice</NavLink>
