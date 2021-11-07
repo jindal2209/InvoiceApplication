@@ -11,7 +11,7 @@ function CreateInvoice() {
     }, [])
     return (
         <div>
-            Show invoice {invoice_id}
+            Create invoice {invoice_id}
         </div>
     )
 }
