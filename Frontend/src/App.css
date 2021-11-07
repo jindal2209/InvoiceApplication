@@ -1,0 +1,33 @@
+.more{
+    background-color: #f1f1f1;
+    border-radius:50%;
+}
+
+.plus{
+    display: inline-block;
+    width: 750px;
+    height: 10vh;
+    padding-left: 10px;
+}
+
+.total{
+    display: inline-block;
+    width: 750px;
+    height: 10vh;
+    text-align: center;
+}
+
+.customer-info{
+    padding: 10px;
+    line-height: 30px;
+}
+
+.invoice-head{
+    display: inline-block;
+    width: 750px;
+}
+
+.sympatico-logo{
+    display: inline-block;
+    width: 750px;
+}
