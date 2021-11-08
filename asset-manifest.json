@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/InvoiceApplication/static/css/main.af1681fa.chunk.css",
+    "main.js": "/InvoiceApplication/static/js/main.1e25b1a5.chunk.js",
+    "main.js.map": "/InvoiceApplication/static/js/main.1e25b1a5.chunk.js.map",
+    "runtime-main.js": "/InvoiceApplication/static/js/runtime-main.2b2aa04c.js",
+    "runtime-main.js.map": "/InvoiceApplication/static/js/runtime-main.2b2aa04c.js.map",
+    "static/js/2.459b03e4.chunk.js": "/InvoiceApplication/static/js/2.459b03e4.chunk.js",
+    "static/js/2.459b03e4.chunk.js.map": "/InvoiceApplication/static/js/2.459b03e4.chunk.js.map",
+    "static/js/3.74dc18cf.chunk.js": "/InvoiceApplication/static/js/3.74dc18cf.chunk.js",
+    "static/js/3.74dc18cf.chunk.js.map": "/InvoiceApplication/static/js/3.74dc18cf.chunk.js.map",
+    "index.html": "/InvoiceApplication/index.html",
+    "static/css/main.af1681fa.chunk.css.map": "/InvoiceApplication/static/css/main.af1681fa.chunk.css.map",
+    "static/js/2.459b03e4.chunk.js.LICENSE.txt": "/InvoiceApplication/static/js/2.459b03e4.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2b2aa04c.js",
+    "static/js/2.459b03e4.chunk.js",
+    "static/css/main.af1681fa.chunk.css",
+    "static/js/main.1e25b1a5.chunk.js"
+  ]
+}
