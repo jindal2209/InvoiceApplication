@@ -47,7 +47,8 @@ function ItemComponent(props) {
         deleteInvoiceItem(itemID)
     }
 
-    function selectObject(val) {
+    function selectObject(id) {
+        var val = itemsList.filter(obj => obj.item_no === parseInt(id))[0];
         setItemPrice(val.item_price);
         setItemID(val.item_no);
         var arr = [...invoiceItems]
@@ -55,6 +56,7 @@ function ItemComponent(props) {
         val['quantity'] = qty;
         val['item_total_price'] = itemTotal;
         arr.push(val);
+        setQty(0);
         setInvoiceItem(arr);
     }
 
@@ -62,11 +64,11 @@ function ItemComponent(props) {
         <tr>
             <th className='text-center' scope="row">{itemID}</th>
             <td className='text-center'>
-                <select>
-                    <option>SELECT</option>
+                <select onChange={(e) => selectObject(e.target.value)}>
+                    {/* <option >SELECT</option> */}
                     {itemsList.map((val, idx) => {
                         return (
-                            <option key={idx} onClick={() => selectObject(val)}>{val.item_name}</option>
+                            <option key={idx} value={val.item_no}>{val.item_name}</option>
                         )
                     })}
                 </select>
@@ -126,7 +128,6 @@ function CreateInvoice() {
     function deleteInvoiceItem(id) {
         var arr = [...invoiceItems];
         arr = arr.filter(obj => obj.item_no !== id)
-        console.log(arr)
         setInvoiceItem(arr)
     }
 
