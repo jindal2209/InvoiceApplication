@@ -10,7 +10,7 @@ function ItemComponent(props) {
 
     useEffect(() => {
         setTotalAmount(prev => prev - itemTotal + qty * itemPrice)
-        setItemTotal(qty * itemPrice)
+        setItemTotal(prev => qty * itemPrice)
         // eslint-disable-next-line
     }, [qty])
 
@@ -24,8 +24,8 @@ function ItemComponent(props) {
         val = val[0]
         var arr = [...invoiceItems];
         arr = arr.filter(obj => obj.item_no !== itemID)
-        val['quantity'] = (qty <= 0) ? 0 : qty + 1;
-        val['item_total_price'] = qty * val.item_price;
+        val['quantity'] = (qty <= 0) ? 0 : qty - 1;
+        val['item_total_price'] = val['quantity'] * val.item_price;
         arr.push(val);
         setInvoiceItem(arr);
     }
@@ -37,7 +37,7 @@ function ItemComponent(props) {
         var arr = [...invoiceItems];
         arr = arr.filter(obj => obj.item_no !== itemID)
         val['quantity'] = qty + 1;
-        val['item_total_price'] = qty * val.item_price;
+        val['item_total_price'] = (qty + 1) * val.item_price;
         arr.push(val);
         setInvoiceItem(arr);
     }
@@ -151,7 +151,7 @@ function CreateInvoice() {
             'items_list': invoiceItems
         })
             .then((res) => {
-                alert('invoice created your invoice number is: ', res.data.invoice_id)
+                alert(`invoice created your invoice number is: ${res.data.invoice_id}`,)
             })
             .catch(err => {
                 console.log(err)

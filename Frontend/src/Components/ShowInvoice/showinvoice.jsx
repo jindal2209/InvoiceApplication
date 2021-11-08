@@ -51,7 +51,7 @@ function ShowInvoice() {
         }
 
         var data = {}, options = {};
-        axios.post('create_order/')
+        axios.post('create_order/', { 'amount': totalAmount })
             .then((res) => {
                 data = res.data
                 options = {
@@ -59,20 +59,20 @@ function ShowInvoice() {
                     currency: data.currency,
                     amount: data.razorpay_amount.toString(),
                     order_id: data.razorpay_order_id,
-                    name: 'Invoice Payment',
+                    name: `Invoice-${invoice_id} Payment`,
                     description: 'Thank you for paying invoice. Please give us some money',
                     // image: 'http://localhost:3000/logo.svg',
                     callback_url: data.callback_url,
                     handler: function (response) {
-                        axios.post(data.callback_url, { ...response, 'amount': data.razorpay_amount })
+                        axios.post(data.callback_url, { ...response, 'amount': data.razorpay_amount, 'customer_name': customerName, 'customer_email': customerEmail, 'invoice_id': invoice_id })
                             .then((verification_res) => {
-                                alert('Payment Successful')
+                                alert('Payment Successful');
+                                window.location.reload();
                             })
                     },
                     prefill: {
-                        name: "patient_name",
-                        email: 'email',
-                        phone_number: 'phone number'
+                        name: customerName,
+                        email: customerEmail,
                     }
                 }
                 const paymentObject = new window.Razorpay(options)
@@ -95,26 +95,30 @@ function ShowInvoice() {
             </div>
             <div className="row">
                 <div className="col-md-12">
-                    <div className="mb-5 mt-3">
+                    <div className="mb-4 mt-3">
                         <div className="customer-info">
-                            <b>Billing Date: {invoiceDate}</b>
-                            &nbsp;&nbsp;&nbsp;
-                            <b>Company: {companyName}</b>
-                            &nbsp;&nbsp;&nbsp;
-                            <b>Status: {invoiceStatus}</b>
-                            <br />
-                            <b>Bill To:</b>
-                            <div className="row g-3">
-                                <div className="col-md-6">
-                                    Name: {customerName}
-                                </div>
-                                <div className="col-md-6">
-                                    Email: {customerEmail}
-                                </div>
+                            <div className="float-end text-end">
+                                <b>Status: {invoiceStatus}</b>
+                                <br />
+                                {
+                                    invoiceStatus === 'pending' ?
+                                        <button className='btn btn-primary' onClick={createOrder}>Pay Now</button>
+                                        :
+                                        invoiceStatus === 'overdue' ?
+                                            <button className='btn btn-danger' onClick={createOrder}>Overdue</button>
+                                            :
+                                            <div className='btn btn-success'>Paid</div>
+                                }
                             </div>
+                            <b>Company: {companyName}</b>
+                            <br />
+                            <b>Billing Date: {invoiceDate}</b>
+                            <br />
+                            <b>Billed To: {customerName}</b>
+                            <br />
+                            <b>Email ID: {customerEmail}</b>
                         </div>
                     </div>
-
                     <table className="table">
                         <thead className="table-dark">
                             <tr>

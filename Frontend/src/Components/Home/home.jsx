@@ -8,18 +8,24 @@ function Home() {
     }, [])
 
     return (
-        <div>
-            <div class="home-logo">
-                <img src={process.env.PUBLIC_URL + "/logo.png"} height="250px"></img>
+        <div className='container py-3'>
+            <div className="row">
+                <div className="col-12">
+                    <div className="float-start">
+                        <img src={process.env.PUBLIC_URL + "/logo.png"} height="80" alt='logo' />
+                    </div>
+                    <div className="float-end h1">Invoice</div>
+                </div>
             </div>
-
-            <div class="invoiceapp-head">
-                <h1>Invoice App</h1>
+            <div className="row mt-5">
+                <NavLink to='/create_invoice'> <button class="btn btn-primary btn-lg">Create Invoice</button></NavLink>
             </div>
-
-            <NavLink to='/create_invoice'> <button class="btn btn-primary invoice-button btn-lg">Create Invoice</button></NavLink>
-            <NavLink to='/add_item'> <button class="btn btn-primary invoice-button btn-lg">Add Items</button></NavLink>
-            <NavLink to='/check_invoice_status'> <button class="btn btn-primary invoice-button btn-lg">Check Invoice Status</button></NavLink>
+            <div className="row my-2">
+                <NavLink to='/add_item'> <button class="btn btn-primary btn-lg">Add Items</button></NavLink>
+            </div>
+            <div className="row">
+                <NavLink to='/check_invoice_status'> <button class="btn btn-primary btn-lg">Check Invoice Status</button></NavLink>
+            </div>
         </div>
     )
 }

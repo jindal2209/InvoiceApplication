@@ -1,10 +1,11 @@
+from typing import AsyncContextManager
 from django.conf import settings
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST,HTTP_403_FORBIDDEN, HTTP_405_METHOD_NOT_ALLOWED
 from .models import CompanySerializer, InvoiceItemsSerializer, Items,ItemsSerializer,Company,InvoiceItems,Invoices
-from .emailsend import sendMail
-import razorpay,json
+from .emailsend import sendMail,sendPaymentConfirmationMail
+import razorpay,json,asyncio
 
 # Create your views here.
 @api_view(['POST'])
@@ -25,6 +26,8 @@ def CreateCompany(request):
         return Response({'status': 'OK'},status=HTTP_200_OK)
     else:
         return Response({'error': 'BAD_REQUEST'},status=HTTP_400_BAD_REQUEST)
+
+loop = asyncio.get_event_loop()
 
 # Create Invoice
 @api_view(['POST'])
@@ -48,15 +51,19 @@ def CreateInvoice(request):
         # create invoice item
         for item in invoice_items:
             # item_no item_name quantity price total
-            invoice_items_list.append({item['item_no'],item['item_name'],item['quantity'],item['item_price'],item['item_total_price']})
+            invoice_items_list.append({
+                'item_no': item['item_no'],
+                'item_name': item['item_name'],
+                'quantity': item['quantity'],
+                'item_price': item['item_price'],
+                'item_total_price': item['item_total_price']
+            })
             item_obj = Items.objects.get(item_no=item['item_no'])
             InvoiceItems.objects.create(item=item_obj,invoice=invoice_obj,quantity=item['quantity'])
 
-
         # send mail
-        ## invoice_id company_name invoice_items_list customer_name customer_email_id total_amount
-        sendMail(invoice_obj.id,company_obj.company_name,invoice_items_list,customer_name,customer_email_id,total_amount)
-
+        ## invoice_id company_name invoice_items_list customer_name customer_email_id total_amount invoice_date
+        loop.run_in_executor(None,sendMail,invoice_obj.id,company_obj.company_name,invoice_items_list,customer_name,customer_email_id,total_amount,invoice_obj.invoice_date)
         # return response
         if(invoice_obj):
             return Response({'status': 'OK', 'invoice_id': invoice_obj.id},status=HTTP_200_OK)
@@ -69,7 +76,8 @@ razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID,settings.RAZORP
 @api_view(['POST'])
 def createOrder(request):
     if (request.method == 'POST'):
-        amount = 10000 # rs 100
+        data = json.loads(request.body)
+        amount = data.get('amount')*100 # rs 100
         currency = 'INR'
         # Create a Razorpay Order
         razorpay_order = razorpay_client.order.create(dict(amount=amount,
@@ -97,7 +105,11 @@ def paymentHandler(request):
         try:
             # get the required parameters from post request.
             data = json.loads(request.body)
+            customer_name = data.get('customer_name')
+            invoice_id = data.get('invoice_id')
+            customer_email = data.get('customer_email')
             payment_id = data.get('razorpay_payment_id', '')
+            invoice_id = data.get('invoice_id')
             razorpay_order_id = data.get('razorpay_order_id', '')
             signature = data.get('razorpay_signature', '')
             params_dict = {
@@ -113,6 +125,12 @@ def paymentHandler(request):
                 try:
                     # capture the payemt
                     razorpay_client.payment.capture(payment_id, amount)
+
+                    inv_obj = Invoices.objects.filter(id=invoice_id).update(invoice_status='paid')
+                    # inv_obj.invoice_status = 'paid'
+                    # inv_obj.save()                    
+                    loop.run_in_executor(None,sendPaymentConfirmationMail,invoice_id,customer_name,customer_email,amount)
+                    
                     # render success page on successful caputre of payment
                     return Response({'status': 'OK'},status=HTTP_200_OK)
                 except:
