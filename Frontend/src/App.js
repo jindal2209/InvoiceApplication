@@ -11,6 +11,7 @@ import Home from './Components/Home/home';
 import CreateInvoice from './Components/CreateInvoice/createinvoice';
 import ShowInvoice from './Components/ShowInvoice/showinvoice';
 import AddItem from './Components/AddItem/additem';
+import CheckStatus from './Components/CheckStatus/checkstatus';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route exact path='/'><Home /></Route>
           <Route exact path='/create_invoice'><CreateInvoice /></Route>
           <Route exact path='/add_item'><AddItem /></Route>
+          <Route exact path='/check_invoice_status'><CheckStatus /></Route>
           <Route exact path='/invoice/:invoice_id'><ShowInvoice /></Route>
           <Route><div>404 NOT FOUND</div> </Route>
         </Switch>

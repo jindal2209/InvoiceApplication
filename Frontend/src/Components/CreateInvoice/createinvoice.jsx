@@ -86,6 +86,7 @@ function ItemComponent(props) {
 function CreateInvoice() {
     // list data
     var [itemsList, setItemsList] = useState([]);
+    // eslint-disable-next-line
     var [companiesList, setCompaniesList] = useState([]);
 
     // invoice data
