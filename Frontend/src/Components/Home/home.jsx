@@ -18,13 +18,13 @@ function Home() {
                 </div>
             </div>
             <div className="row mt-5">
-                <NavLink to='/create_invoice'> <button class="btn btn-primary btn-lg">Create Invoice</button></NavLink>
+                <NavLink to='/create_invoice'> <button className="btn btn-primary btn-lg">Create Invoice</button></NavLink>
             </div>
             <div className="row my-2">
-                <NavLink to='/add_item'> <button class="btn btn-primary btn-lg">Add Items</button></NavLink>
+                <NavLink to='/add_item'> <button className="btn btn-primary btn-lg">Add Items</button></NavLink>
             </div>
             <div className="row">
-                <NavLink to='/check_invoice_status'> <button class="btn btn-primary btn-lg">Check Invoice Status</button></NavLink>
+                <NavLink to='/check_invoice_status'> <button className="btn btn-primary btn-lg">Check Invoice Status</button></NavLink>
             </div>
         </div>
     )
