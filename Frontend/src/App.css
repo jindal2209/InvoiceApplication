@@ -31,3 +31,32 @@
     display: inline-block;
     width: 750px;
 }
+
+.home-logo{
+    display: inline-block;
+    width: 49%;
+    padding-top: 0px;
+}
+
+.invoiceapp-head{
+    display: inline-block;
+    width: 50%;
+    padding-top: 0px;
+}
+
+.invoice-button{
+    margin-right: 30px;
+    margin-left: 30px;
+}
+
+.item-form{
+    margin: 10px;
+    max-width: 800px;
+    margin-left: 20px;
+}
+
+.item-addition{
+    margin-left: 80px;
+    margin-top: 20px;
+    width: 300px;
+}

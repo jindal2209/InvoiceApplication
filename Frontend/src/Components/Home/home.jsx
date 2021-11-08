@@ -8,18 +8,18 @@ function Home() {
     }, [])
 
     return (
-        <div className='p-3 my-2'>
-            <ul>
-                <li>
-                    <NavLink to='/create_invoice'>Create Invoice</NavLink>
-                </li>
-                <li>
-                    <NavLink to='/add_item'>Add Items</NavLink>
-                </li>
-                <li>
-                    <NavLink to='/check_invoice_status'>Check Invoice Status</NavLink>
-                </li>
-            </ul>
+        <div>
+            <div class="home-logo">
+                <img src={process.env.PUBLIC_URL + "/logo.png"} height="250px"></img>
+            </div>
+
+            <div class="invoiceapp-head">
+                <h1>Invoice App</h1>
+            </div>
+
+            <NavLink to='/create_invoice'> <button class="btn btn-primary invoice-button btn-lg">Create Invoice</button></NavLink>
+            <NavLink to='/add_item'> <button class="btn btn-primary invoice-button btn-lg">Add Items</button></NavLink>
+            <NavLink to='/check_invoice_status'> <button class="btn btn-primary invoice-button btn-lg">Check Invoice Status</button></NavLink>
         </div>
     )
 }
